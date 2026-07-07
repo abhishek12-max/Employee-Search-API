@@ -142,13 +142,6 @@ npm start
 
 ---
 
-## 👨‍💻 Author
-
-**Abhishek Panwar**
-
-Backend Learning Series 
-
----
 
 ## 🎯 Learning Objective
 
