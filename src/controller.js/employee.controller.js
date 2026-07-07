@@ -54,7 +54,38 @@ const getemployee = async (req,res,next) => {
      }
 }
 
+const searchemployee= async (req,res,next) => {
+    try {
+         const name= req.query.name
+    if(!name){
+        return res.status(400).json({
+            message:"search keyword is required"
+        })
+    }
+
+    const employee= await EmployeeModel.find({
+        fullname:{
+            $regex:name,
+            $options:"i"
+        }
+    }).select("-password")
+     if(employee.length===0){
+        return res.status(404).json({
+            message:"employee not found"
+        })
+     }
+    res.status(200).json({
+        message:"employee search successfull",
+        employee
+    })
+    } catch (error) {
+        next(error)
+    }
+   
+}
+
 module.exports={
     createemployee,
-    getemployee
+    getemployee,
+    searchemployee
 }

@@ -6,4 +6,5 @@ const {employeevalidation}= require("../validator/employee.validator.js")
 
 router.post("/employee",employeevalidation,employeecontroller.createemployee);
 router.get("/employee",employeecontroller.getemployee);
+router.get("/employee/search",employeecontroller.searchemployee);
 module.exports= router;
