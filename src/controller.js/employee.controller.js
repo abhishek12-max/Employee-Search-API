@@ -139,5 +139,6 @@ module.exports={
     createemployee,
     getemployee,
     searchemployee,
-    employeepaginate
+    employeepaginate,
+    employeesort
 }

@@ -8,4 +8,5 @@ router.post("/employee",employeevalidation,employeecontroller.createemployee);
 router.get("/employee",employeecontroller.getemployee);
 router.get("/employee/search",employeecontroller.searchemployee);
 router.get("/employee/paginate",employeecontroller.employeepaginate);
+router.get("/employee/sort",employeecontroller.employeesort);
 module.exports= router;
