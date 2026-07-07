@@ -95,7 +95,7 @@ const employeepaginate= async (req,res,next) => {
     });
 }
     const skip= (page-1)*limit;
-    
+
     const employee= await EmployeeModel.find().skip(skip).limit(limit).select("-password")
      if(employee.length===0){
         return res.status(404).json({
@@ -110,6 +110,29 @@ const employeepaginate= async (req,res,next) => {
      next(error)
   }
   
+}
+
+const employeesort= async (req,res,next) => {
+    try {
+         const sort = req.query.sort || "createdAt";
+         const order = req.query.order || "desc";
+         let sortorder =-1;
+         if(order==="asc"){
+            sortorder=1
+         }else{
+            sortorder;
+         }
+        const employee= await EmployeeModel.find().sort({
+            [sort]:sortorder
+        })
+       if(employee.length===0){
+           return res.status(400).json({
+            message:"not found"
+           })
+       }
+    } catch (error) {
+        next(error)
+    }
 }
 
 module.exports={
