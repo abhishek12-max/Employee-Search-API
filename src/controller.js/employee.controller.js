@@ -135,6 +135,28 @@ const employeesort= async (req,res,next) => {
     }
 }
 
+const employeefilter= async (req,res,next) => {
+    try {
+        const role= req.query.role
+        const query={};
+        if(role){
+            query.role= role
+        }
+        const employee= await EmployeeModel.find(query).select("-password");
+        if(employee.length===0){
+            return res.status(400).json({
+                message:"employee not found"
+            })
+        }
+        res.status(200).json({
+            message:"successfull",
+            employee
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 module.exports={
     createemployee,
     getemployee,
