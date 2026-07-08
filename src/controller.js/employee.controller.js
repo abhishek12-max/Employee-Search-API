@@ -157,10 +157,81 @@ const employeefilter= async (req,res,next) => {
     }
 }
 
+const combineapi = async (req, res, next) => {
+    try {
+        const {
+            search,
+            role,
+            sort = "createdAt",
+            order = "desc",
+            page = 1,
+            limit = 10
+        } = req.query;
+
+        const query = {};
+
+        // Search
+        if (search) {
+            query.fullname = {
+                $regex: search,
+                $options: "i"
+            };
+        }
+
+        // Filter
+        if (role) {
+            query.role = role;
+        }
+
+        // Sort
+        let sortOrder = -1;
+
+        if (order === "asc") {
+            sortOrder = 1;
+        }
+
+        // Pagination
+        const pageNumber = Number(page);
+        const limitNumber = Number(limit);
+
+        if (pageNumber < 1 || limitNumber < 1) {
+            return res.status(400).json({
+                message: "Page and limit must be greater than 0"
+            });
+        }
+
+        const skip = (pageNumber - 1) * limitNumber;
+
+        // Database Query
+        const employee = await EmployeeModel.find(query)
+            .sort({
+                [sort]: sortOrder
+            })
+            .skip(skip)
+            .limit(limitNumber)
+            .select("-password");
+
+        if (employee.length === 0) {
+            return res.status(404).json({
+                message: "Employee not found"
+            });
+        }
+
+        res.status(200).json({
+            message: "Employee fetched successfully",
+            employee
+        });
+
+    } catch (error) {
+        next(error);
+    }
+};
 module.exports={
     createemployee,
     getemployee,
     searchemployee,
     employeepaginate,
-    employeesort
+    employeesort,
+    employeefilter,
+    combineapi
 }

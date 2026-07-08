@@ -9,4 +9,6 @@ router.get("/employee",employeecontroller.getemployee);
 router.get("/employee/search",employeecontroller.searchemployee);
 router.get("/employee/paginate",employeecontroller.employeepaginate);
 router.get("/employee/sort",employeecontroller.employeesort);
+router.get("/emmployee/filter",employeecontroller.employeefilter);
+router.get("/employee/combine",employeecontroller.combineapi);
 module.exports= router;
